@@ -32,11 +32,40 @@ class SupportController extends Controller
            me retorna uma (collection ou um array)
          */
          $support = new Support();
-         $support = $support->all();
-         dd($support);
+         $supports = $support->all();
+         //dd($supports);
         //aqui eu passo o meu path que esta na (view) do projeto
         //nomeDaPasta/nomeDaOutraPasta/nomeDoArquivo sem a extensão blade.php
         //este => compact('supports')seria como a criação de um array para enviar para view.
-        return view('admin/supports/index', compact('supports'));
+        return view('/admin/supports/index', compact('supports'));
+    }
+
+    public function create()
+    {
+        return view('/admin/supports/create');
+    }
+
+    public function store(Request $request, Support $support)
+    {
+        $data = $request->all();
+        $data['status'] = 'a';
+
+        //aqui eu faço o cadastro
+        //Support::create($data);
+
+        //$support = $support->create($data);
+        
+        //vou enviar para view esta lista, passando o nome da rota não a (url)
+        //o nome da rota sempre fica a url pode ser alterada, e mudar o projeto
+        $support->create($data);
+        
+        return redirect()->route('supports.index');
+
+
+        //podemos usar via injeção de dependencia (parametros)
+        //ou criar a instancia do Request
+        //$request = new Request();
+        //com este request.all eu pego todos os dados que vem da reuisição
+        dd($request->all());
     }
 }
