@@ -1,5 +1,13 @@
 <h1>Duvida !! {{ $support->id }}</h1>
 
+<!--validação - vamos exibir as mensagem de validações-->
+@if ($errors->any())
+    @foreach($errors->all() as $error)
+        {{ $error }}
+    @endforeach
+    
+@endif
+
 <form action="{{ route('supports.update', $support->id) }}" method="POST">
     <!--
         Seria um token como se fosse um captcha que ele torna o formulário
@@ -13,6 +21,6 @@
     <!--corrigo de forma simples methot(e o verbo que preciso) ele já cria de forma (oculta como input hidden);-->
     @method('PUT')
     <input type="text" placeholder="Assunto" name="subject" value="{{ $support->subject}}">
-    <textarea cols="30" rows="5" placeholder="Descrição" name="body" value="{{ $support->body}}"></textarea>
+    <textarea cols="30" rows="5" placeholder="Descrição" name="body">{{ $support->body}}</textarea>
     <button type="submit">Editar</button>
 </form>
