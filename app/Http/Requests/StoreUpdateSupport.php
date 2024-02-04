@@ -68,7 +68,6 @@ class StoreUpdateSupport extends FormRequest
                 //4º Pois desta forma estarei duplicando os assuntos ou conteudos e a tabela e logica não permite
                 //mas quando eu for editar o subject ou assunto que já existe em outro topico ele não aceita.
                 Rule::unique('supports')->ignore($this->id),
-
             ];
             
         }

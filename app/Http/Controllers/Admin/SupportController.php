@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
- //as validações estão centralizadas nesta classe StoreUpdateSupport
 use App\Http\Requests\StoreUpdateSupport;
 use App\Models\Support;
+use App\DTO\CreateSupportDTO;
+use App\DTO\UpdateSupportDTO;
 use Illuminate\Http\Request;
+
 
 class SupportController extends Controller
 {
@@ -15,8 +17,7 @@ class SupportController extends Controller
   //quando ele cria este atributo ($service) ele fez o new e criou uma instência.
   //este atributo ($service) que é um objeto de ( $service)
     protected SupportController $service
-  )
-  { }
+  ) { }
     //nosso index irá retornar uma view e ter a listagem dos nossos itens
     public function index(Request $request)
     {
@@ -50,7 +51,8 @@ class SupportController extends Controller
         //agora por ultimo vou recuperar usando o service
         //passo o (filter) se não tiver nada eu retorno o (null)
         //este retorno é um array
-        $support = $this->service->getAll($request->filter);
+        $supports = $this->service->getAll($request->filter);
+        dd($supports);
         return view('/admin/supports/index', compact('supports'));
     }
 
@@ -96,27 +98,17 @@ class SupportController extends Controller
     //este store é o create
     public function store(StoreUpdateSupport $request, Support $support)
     {
-      //validated -> pegar os dados que foram validados.
-        $data = $request->validated();
-        $data['status'] = 'a';
-
-        //aqui eu faço o cadastro
-        //Support::create($data);
-
-        //$support = $support->create($data);
-        
-        //vou enviar para view esta lista, passando o nome da rota não a (url)
-        //o nome da rota sempre fica a url pode ser alterada, e mudar o projeto
-        $support->create($data);
-        
+        /*
+          na nossa refatoraçao trabalhando com DTO
+          nesta class CreateSupportDTO eu criei um método makeFromRequest com retorno self
+          self seria um objeto da propria classe.
+          vamos utiliza-la aqui
+          Resumindo: estou acessando o objeto makeFromRequest da minha classe CreateSupportDTO
+          */
+         $this->service->new(CreateSupportDTO::makeFromRequest($request)
+           
+         ); 
         return redirect()->route('supports.index');
-
-
-        //podemos usar via injeção de dependencia (parametros)
-        //ou criar a instancia do Request
-        //$request = new Request();
-        //com este request.all eu pego todos os dados que vem da reuisição
-        //dd($request->all());
     }
 
     //fiz o edti por injeção de dependencia e parametros $id
@@ -142,42 +134,22 @@ class SupportController extends Controller
         //depois nós vamos popular 
     }
 
-    public function update(StoreUpdateSupport $request, Support $support, string|int $id)
+
+/*
+    public function update(StoreUpdateSupport $request, Support $support)
     {
-      //vamos verificar se existe
-      if(!$support = $support->find($id))
-      {
-        return back();
-      }
-      //fiz via injeção de dependencia poderia fazer via instancia
-      //só que especifiquei o que eu quero que (atualize) montei um array only[]
-
-      //somente lembrando que o método (update) retorna true se deu certo e false caso não atualize.
-      //da uma expection caso de alguma excessão com base de dados ou seja o false.
-
-      //este fica como exemplo sem a validação
-        // $support->update($request->only([
-        //  'subject', 'body'
-        //]));
-
-        //este já com a validated eu pego apenas os dados que foram validados.
-        $support->update($request->validated());
-
-
-        /*2º meio de atualizar sem array é mais verboso 
-
-        //outro exemplo ao invês de fazer via array poderia fazer manualmente
-        //este modelo tanto server para (edição como para cadastro)
-
-        //$support->subjcet = $request->subject;
-        //$support->body = $request->body;
-        //$support->save();
-
-        */
-        //dando tudo certo eu retorno par listagem com o objteo atualizado
+      
+        $support = $this->service->update(
+          UpdateSupportDTO::makeFromRequest($request)//::makeFromRequest($request));
+        );
+        if(!$support){
+          return back();
+        }
+        
+        //encontrando retorna a nossa view
         return redirect()->route('supports.index');
     }
-
+*/
     //montando a action delete ou destroy
     public function destroy(string|int $id)
     {
