@@ -1,8 +1,13 @@
 <?php
+
+namespace App\Repositories;
+
 use App\DTO\CreateSupportDTO;
 use App\DTO\UpdateSupportDTO;
 use App\Models\Support;
-use App\Repsitories\SupportRepositoryInterface;
+use App\Repositories\SupportRepositoryInterface;
+use stdClass;
+
 //esta é a classe concreta sendo implementada pelo contrato da interface.
 class SupportEloquentORM implements SupportRepositoryInterface
 {
@@ -27,7 +32,7 @@ class SupportEloquentORM implements SupportRepositoryInterface
                         $query->orWhere('body', 'like', "%{$filter}%");
                         }
                 })
-                ->all()
+                ->get()
                 //->toSql() -> para ver a query que formou
                 //->paginete()
                 ->toArray();
@@ -35,7 +40,7 @@ class SupportEloquentORM implements SupportRepositoryInterface
    
     //ele encontrando o objeto retorna um stdClass não encontrando retorna null
     //passando null não exibi a exception.
-    public function findOne(string $id): stdClass|null
+    public function findOne(string $id): stdClass|null 
     {
         //vou tentan buscar (conteudo) no support
         $support = $this->model->find($id);

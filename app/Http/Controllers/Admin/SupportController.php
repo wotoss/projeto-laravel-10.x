@@ -7,6 +7,8 @@ use App\Http\Requests\StoreUpdateSupport;
 use App\Models\Support;
 use App\DTO\CreateSupportDTO;
 use App\DTO\UpdateSupportDTO;
+use App\Services\SupportService;
+//use App\DTO\UpdateSupportDTO;
 use Illuminate\Http\Request;
 
 
@@ -16,11 +18,12 @@ class SupportController extends Controller
   public function __construct(
   //quando ele cria este atributo ($service) ele fez o new e criou uma instência.
   //este atributo ($service) que é um objeto de ( $service)
-    protected SupportController $service
+    protected SupportService $service
   ) { }
     //nosso index irá retornar uma view e ter a listagem dos nossos itens
     public function index(Request $request)
     {
+      
         /*
           1º Você pode usar a injeção de depêndencia do Laravel
           e passar no parametro do método=> 
@@ -52,7 +55,7 @@ class SupportController extends Controller
         //passo o (filter) se não tiver nada eu retorno o (null)
         //este retorno é um array
         $supports = $this->service->getAll($request->filter);
-        dd($supports);
+        
         return view('/admin/supports/index', compact('supports'));
     }
 
@@ -79,6 +82,7 @@ class SupportController extends Controller
         //dd($support);
 
         //vamos para o exemplo final utilizando a service Layer
+        dd($this->service->findOne($id));
         if(!$support = $this->service->findOne($id))
         {
           return back();
@@ -135,12 +139,13 @@ class SupportController extends Controller
     }
 
 
-/*
-    public function update(StoreUpdateSupport $request, Support $support)
+
+    public function update(StoreUpdateSupport $request)
     {
       
-        $support = $this->service->update(
-          UpdateSupportDTO::makeFromRequest($request)//::makeFromRequest($request));
+      $support = $this->service->update(
+          UpdateSupportDTO::makeFromRequest($request)
+          
         );
         if(!$support){
           return back();
@@ -149,7 +154,7 @@ class SupportController extends Controller
         //encontrando retorna a nossa view
         return redirect()->route('supports.index');
     }
-*/
+
     //montando a action delete ou destroy
     public function destroy(string|int $id)
     {

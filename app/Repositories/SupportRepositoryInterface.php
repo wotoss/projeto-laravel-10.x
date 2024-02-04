@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repsitories;
+namespace App\Repositories;
 
 use App\DTO\{
     CreateSupportDTO,

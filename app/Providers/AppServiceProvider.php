@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\Repsitories\SupportRepositoryInterface;
+use App\Repositories\{SupportEloquentORM};
+use App\Repositories\{SupportRepositoryInterface};
 use Illuminate\Support\ServiceProvider;
-use SupportEloquentORM;
+
 
 class AppServiceProvider extends ServiceProvider
 {
