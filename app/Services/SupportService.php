@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Services;
+use App\Repositories\SupportRepositoryInterface;
 use App\DTO\CreateSupportDTO;
 use App\DTO\UpdateSupportDTO;
-use App\Repositories\SupportRepositoryInterface;
+
 use stdClass;
 //Lembrando que estamos trablhando com o padrão ServiceLayer.
 class SupportService
@@ -17,10 +18,7 @@ class SupportService
        public function __construct(
           protected SupportRepositoryInterface $repository
        )
-       {
-         
-          
-       }
+       { }
 
 
        //toda logica trazemos para ká !

@@ -8,7 +8,6 @@ use App\Models\Support;
 use App\DTO\CreateSupportDTO;
 use App\DTO\UpdateSupportDTO;
 use App\Services\SupportService;
-//use App\DTO\UpdateSupportDTO;
 use Illuminate\Http\Request;
 
 
@@ -82,7 +81,7 @@ class SupportController extends Controller
         //dd($support);
 
         //vamos para o exemplo final utilizando a service Layer
-        dd($this->service->findOne($id));
+        //dd($this->service->findOne($id));
         if(!$support = $this->service->findOne($id))
         {
           return back();
@@ -145,8 +144,9 @@ class SupportController extends Controller
       
       $support = $this->service->update(
           UpdateSupportDTO::makeFromRequest($request)
-          
+                   
         );
+        
         if(!$support){
           return back();
         }
