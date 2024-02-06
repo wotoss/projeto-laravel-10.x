@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repositories;
-
+use App\Repositories;
 use App\DTO\CreateSupportDTO;
 use App\DTO\UpdateSupportDTO;
 use App\Models\Support;
@@ -30,8 +30,9 @@ class SupportEloquentORM implements SupportRepositoryInterface
                  //no segundo no array eu passo qual coluna é para trazer neste caso todas as colunas [*]
                  //neste page eu passo em qual pagina que estou ($page)
                  ->paginate($totalPerPage, ["*"], 'page', $page);
-
-                 dd($result->toArray());
+               //dd((new PaginationPresenter($result))->items());
+               //vou retornar um new passo o classe PaginationPresente($result)  
+               return new PaginationPresenter($result);
     }
     //neste getAll sendo vazio ou não ele retornará um array
     public function getAll(string $filter = null): array
