@@ -53,8 +53,16 @@ class SupportController extends Controller
         //agora por ultimo vou recuperar usando o service
         //passo o (filter) se não tiver nada eu retorno o (null)
         //este retorno é um array
-        $supports = $this->service->getAll($request->filter);
-        
+        $supports = $this->service->paginate(
+          //vamos agora pegar as informações com base no meu request
+          //espero o valor da pagina no parametro page se não vinher o default é 1
+          page: $request->get('page', 1),
+          //valor padrão do per_page é 15
+          totalPerPage: $request->get('per_page', 15),
+          //estou esperando o filter, mas é opcional se não vinher o valor é (null).
+          filter: $request->filter
+        );
+
         return view('/admin/supports/index', compact('supports'));
     }
 

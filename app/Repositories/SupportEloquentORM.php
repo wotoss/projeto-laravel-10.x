@@ -17,6 +17,22 @@ class SupportEloquentORM implements SupportRepositoryInterface
         protected Support $model
     )
     { }
+    public function paginate(int $page = 1, int $totalPerPage = 15, string $filter = null): PaginationInterface
+    {
+        $result = $this->model
+                 ->where(function ($query) use ($filter) {
+                   if ($filter) {
+                      $query->where('subject', $filter);
+                      $query->orWhere('body', 'like', "%{$filter}%");
+                   }
+                 })
+                 //no primeiro parametro eu trago o total de items por pagina (total-de-pagina)
+                 //no segundo no array eu passo qual coluna é para trazer neste caso todas as colunas [*]
+                 //neste page eu passo em qual pagina que estou ($page)
+                 ->paginate($totalPerPage, ["*"], 'page', $page);
+
+                 dd($result->toArray());
+    }
     //neste getAll sendo vazio ou não ele retornará um array
     public function getAll(string $filter = null): array
     {
