@@ -18,7 +18,8 @@
                 <!--aqui como se trata de um objeto vou receber as informções desta forma-->
                 <!--assim eu faço o preenchimento por objeto-->
                 <td>{{ $support->subject }}</td>
-                <td>{{ $support->status }}</td>
+                <!--passei esta o (endereço function) lá no meu composer para ficar de forma global-->
+                <td>{{ getStatusSupport($support->status) }}</td>
                 <td>{{ $support->body }}</td>
                 <td>
                     <!--se o objeto fosse array pegaria assim 

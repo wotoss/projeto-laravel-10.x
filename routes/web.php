@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\{SupportController};
 use App\Http\Controllers\Site\SiteController;
 use Illuminate\Support\Facades\Route;
+use App\Enums;
+use App\Enums\SupportStatus;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,23 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+//vamos fazer um teste
+//uma rota get, então ela virá url
+  Route::get('/test', function(){
+    /*
+    Doc
+    Criei a classe enum na raiz do app
+    e consigo utiliza-la na rosa e pegar o seu método para obter o retorno
+    */
+    //dd(SupportStatus::cases());
+    //agora vou pegar somente os valores
+    //primeiramente eu pego um arrya com os items.
+    //depois eu passo o name
+    dd(array_column(SupportStatus::cases(), 'name'));
+  });
+//fim 
+
 Route::delete('/supports/{id}', [SupportController::class, 'destroy'])->name('supports.destroy');
 
 Route::put('/supports/{id}', [SupportController::class, 'update' ])->name('supports.update');
