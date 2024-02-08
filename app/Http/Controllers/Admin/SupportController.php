@@ -58,12 +58,14 @@ class SupportController extends Controller
           //espero o valor da pagina no parametro page se não vinher o default é 1
           page: $request->get('page', 1),
           //valor padrão do per_page é 15
-          totalPerPage: $request->get('per_page', 15),
+          totalPerPage: $request->get('per_page', 1),
           //estou esperando o filter, mas é opcional se não vinher o valor é (null).
-          filter: $request->filter
+          filter: $request->filter,
         );
-
-        return view('/admin/supports/index', compact('supports'));
+         //vou passar sempre isto no parametro filter "indepedente de ter filtro ou não"
+        $filters = ['filter' => $request->get('filter', '')];
+        //estou passando o filter aqui na url
+        return view('/admin/supports/index', compact('supports', 'filters'));
     }
 
     public function show (string|int $id)
