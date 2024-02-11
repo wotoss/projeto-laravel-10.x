@@ -3,7 +3,7 @@
 <!--poderia passar url mas se um dia eu mudar a url perderia o que foi feito-->
  <a href="{{ route('supports.create')}}">Criar Dúvidas</a> 
 <table>
-    <thead>>
+    <thead>
         <th>assunto</th>
         <th>status</th>
         <th>descrição</th>
