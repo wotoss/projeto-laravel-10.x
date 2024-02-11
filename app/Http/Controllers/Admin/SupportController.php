@@ -112,6 +112,8 @@ class SupportController extends Controller
     public function store(StoreUpdateSupport $request, Support $support)
     {
         /*
+          Lembrando: Que a comunicação aqui é com meu (service).
+          
           na nossa refatoraçao trabalhando com DTO
           nesta class CreateSupportDTO eu criei um método makeFromRequest com retorno self
           self seria um objeto da propria classe.

@@ -33,6 +33,13 @@ use App\Enums\SupportStatus;
   });
 //fim 
 
+/* 
+   1- esta unica linha, faria a substituição de todas as outras rotas...
+   [ get, put, delete, post ]
+   //Route::resource('/supports/{id}', [SupportController::class]);
+*/
+
+
 Route::delete('/supports/{id}', [SupportController::class, 'destroy'])->name('supports.destroy');
 
 Route::put('/supports/{id}', [SupportController::class, 'update' ])->name('supports.update');

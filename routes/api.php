@@ -1,19 +1,15 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\SupportController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+/* 
+  a unica rota que vou fazer é esta e ele declara todas as rotas [ get, post put, delete ].
+  caso queira ver as rotas de o comando dentro do containner => php artisan route:list
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+  Faça o teste:
+  Se vc comentar esta linha e der o comando => php artisan route:list => as rotas api não aparecem
+  Caso você descomente esta linha Route::apiResource('/supports', SupportController::class); => as rotas aparecem
+  ao ser passado o comando => php artisan route:list
+*/
+Route::apiResource('/supports', SupportController::class);
