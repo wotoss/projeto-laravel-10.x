@@ -2,8 +2,8 @@
 
 namespace App\Services;
 use App\Repositories\SupportRepositoryInterface;
-use App\DTO\CreateSupportDTO;
-use App\DTO\UpdateSupportDTO;
+use App\DTO\Supports\CreateSupportDTO;
+use App\DTO\Supports\UpdateSupportDTO;
 
 use stdClass;
 //Lembrando que estamos trablhando com o padrão ServiceLayer.
