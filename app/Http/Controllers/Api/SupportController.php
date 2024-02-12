@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUpdateSupport;
 use App\Services\SupportService;
 use Illuminate\Http\Request;
 use App\Http\Resources\SupportResource;
+use Illuminate\Http\Response;
 
 //Com o comando --api - Ele já criou com todo os metodos REST
 class SupportController extends Controller
@@ -55,7 +56,21 @@ class SupportController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if(!$support = $this->service->findOne($id)){
+           
+            /*
+            $dam = response();
+            dd($dam);*/
+            //Json vou passar o (status code de error)
+            return response()->json([
+                'error' => 'Not Found'
+            // 404 é o Not Found
+            //Posso fazer com este exempo => ], 404);
+            //Ou com este para não ficar passando numero 404
+            ], Response::HTTP_NOT_FOUND);
+        }
+        //caso encontre o objeto eu passo ele no (Presenter é o API => SupportResource)
+        return new SupportResource($support);
     }
 
     /**
@@ -71,6 +86,18 @@ class SupportController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        /*
+          tento encontrar o support, caso não encontre dou o response de 404
+        */
+           if(!$this->service->findOne($id)){
+              return response()->json([
+                //=> 'Not Found'
+                  'error' => 'Not Found'
+              ], Response::HTTP_NOT_FOUND);
+           }
+           //ele achando o $id irá fazer a deleção é vou dar um no (content ou 204 de return).
+           $this->service->delete($id); 
+           //return response()->json([], 204)
+           return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
