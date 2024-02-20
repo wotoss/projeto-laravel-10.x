@@ -48,13 +48,13 @@ class StoreUpdateSupport extends FormRequest
                3º estou dizendo que ele é (unico na tabela supports), isto quer dizer que não posso cadastrar a mesma duvida
                se já existir ele não vai deixar cadastrar....
              */
-    return $rules;
+   
 
     //se a minha requisição for do method 'PUT' seria uma atualizar
          
-        if ($this->method() === 'PUT') {
+        if ($this->method() === 'PUT' || $this->method() === 'PATCH') {
             $rules['subject'] = [
-                'required',
+                'required', //nullable
                 'min:3',
                 'max:255',
 
@@ -67,9 +67,10 @@ class StoreUpdateSupport extends FormRequest
                 //2º Mas se eu estiver em um Id = 2 e pegar um valor do Id = 3 e tentar colocar no  id = 2 ele não permite. 
                 //4º Pois desta forma estarei duplicando os assuntos ou conteudos e a tabela e logica não permite
                 //mas quando eu for editar o subject ou assunto que já existe em outro topico ele não aceita.
-                Rule::unique('supports')->ignore($this->id),
+                Rule::unique('supports')->ignore($this->support ?? $this->id),
             ];
             
         }
+        return $rules;
     }
 }

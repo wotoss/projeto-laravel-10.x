@@ -66,7 +66,7 @@ class SupportService
        }
 
         //vamos atualizar..
-         public function update(UpdateSupportDTO $dto): stdClass|null
+        public function update(UpdateSupportDTO $dto): stdClass|null
             
         //vamos falar deste retorno => stdClass|null - do passo null
         //1º- se eu passar o (id) invalido que var (tratar ou validar) isto é o repositorio

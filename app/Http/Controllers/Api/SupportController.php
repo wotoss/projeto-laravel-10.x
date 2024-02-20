@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\Supports\CreateSupportDTO;
+use App\DTO\Supports\UpdateSupportDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateSupport;
 use App\Services\SupportService;
@@ -76,9 +77,20 @@ class SupportController extends Controller
     /**
      * Atualizar o conteudo
      */
-    public function update(Request $request, string $id)
+    public function update(StoreUpdateSupport $request, string $id = null)
     {
-        //
+        $support = $this->service->update(
+            UpdateSupportDTO::makeFromRequest($request, $id)
+        );
+        if (!$support){
+            return response()->json([
+                'error' => 'Not Found'
+            /* 404 é o Not Found
+               Posso fazer com este exempo => ], 404);
+               Ou com este para não ficar passando numero 404 */
+            ], Response::HTTP_NOT_FOUND);
+        }
+        return new SupportResource($support);
     }
 
     /**
