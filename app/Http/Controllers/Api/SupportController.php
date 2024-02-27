@@ -7,9 +7,9 @@ use App\DTO\Supports\UpdateSupportDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateSupport;
 use App\Services\SupportService;
-use Illuminate\Http\Request;
 use App\Http\Resources\SupportResource;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 //Com o comando --api - Ele já criou com todo os metodos REST
 class SupportController extends Controller
@@ -23,9 +23,40 @@ class SupportController extends Controller
     /**
      *Listagem de todo o conteudo
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        /*
+        Este seria um exemplo simples 
+        Exemplo de codigo para mostrar a lista 
+        $supports = Support::paginate();
+        return SupportResource::collection($supports);
+        */
+
+        //faremos assim porque estamos utilizando o padrão com (interface e presenter)
+        $supports = $this->service->paginate(
+            page: $request->get('page', 1),
+            totalPerPage: $request->get('per_page', 1),
+            filter: $request->filter
+        );
+        return SupportResource::collection($supports->items())
+        /* desta formar consigo passar estas informações para o front-end com paginação
+           estou pegando estas propriedades do PaginatioInterface.php
+           com a finalidade de preencher o frnt-end */
+                                ->additional([
+                                    'meta' => [
+                                        //total de paginas
+                                        'total' => $supports->total(),
+                                        //primeira pagina
+                                         'is_first_page' => $supports->isFirstPage(),
+                                         //ultima pagina
+                                         'is_last_page' => $supports->isLastPage(),
+                                         //pegar a pagina atual 
+                                         'current_page' => $supports->currentPage(),
+                                         //proxima pagina
+                                         'next_page' => $supports->getNumberNextPage(),
+                                         'previous_page' => $supports->getNumberPreviousPage()
+                                    ]
+                                ]);
     }
 
     /**
