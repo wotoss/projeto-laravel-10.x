@@ -1,4 +1,22 @@
-<h1>Listagem de Supports !</h1>
+<!--recebendo o template--> 
+<!--pasta admin.pastalayouts.arquivo.app--> 
+@extends('admin.layouts.app')
+
+<!--onde tiver (title) coloque Forum-->
+@section('title', 'Fórum')
+
+<!--onde tiver nosso (header) coloca este h1 -->
+@section('header')
+<!--eu passo o caminho ou path da partial-->
+<!--sendo pasta-admin->pasta-supports->pasta-partial->arquivo-header.blade.php-->
+@include('admin.supports.partials.header', compact('supports'))
+@endsection
+
+<!--crio a diretiva ()section) onde tiver nosso conteudo coloque aqui-->
+<!--estou fechando esta section na ultima linha-->
+@section('content')
+
+
 <!--vou passar o nome da rota e não a url-->
 <!--poderia passar url mas se um dia eu mudar a url perderia o que foi feito-->
  <a href="{{ route('supports.create')}}">Criar Dúvidas</a> 
@@ -45,3 +63,6 @@ esta informação recebida pelo supports => :paginator-->
 :appends="$filters"/> <!--no appends estou enviado o meu (parametro ou variavel filter)-->
 <!--Or-->
 <!--<x-pagination></x-pagination>-->
+
+<!--fecho a section-->
+@endsection
