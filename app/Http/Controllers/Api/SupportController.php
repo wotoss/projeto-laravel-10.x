@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Adapters\ApiAdapter;
 use App\DTO\Supports\CreateSupportDTO;
 use App\DTO\Supports\UpdateSupportDTO;
 use App\Http\Controllers\Controller;
@@ -26,37 +27,24 @@ class SupportController extends Controller
     public function index(Request $request)
     {
         /*
-        Este seria um exemplo simples 
-        Exemplo de codigo para mostrar a lista 
-        $supports = Support::paginate();
-        return SupportResource::collection($supports);
+            Este seria um exemplo simples 
+            Exemplo de codigo para mostrar a lista 
+            $supports = Support::paginate();
+            return SupportResource::collection($supports);
         */
 
-        //faremos assim porque estamos utilizando o padrão com (interface e presenter)
+        //faremos assim porque estamos utilizando o (padrão) com (interface e presenter)
         $supports = $this->service->paginate(
             page: $request->get('page', 1),
             totalPerPage: $request->get('per_page', 1),
             filter: $request->filter
         );
-        return SupportResource::collection($supports->items())
-        /* desta formar consigo passar estas informações para o front-end com paginação
-           estou pegando estas propriedades do PaginatioInterface.php
-           com a finalidade de preencher o frnt-end */
-                                ->additional([
-                                    'meta' => [
-                                        //total de paginas
-                                        'total' => $supports->total(),
-                                        //primeira pagina
-                                         'is_first_page' => $supports->isFirstPage(),
-                                         //ultima pagina
-                                         'is_last_page' => $supports->isLastPage(),
-                                         //pegar a pagina atual 
-                                         'current_page' => $supports->currentPage(),
-                                         //proxima pagina
-                                         'next_page' => $supports->getNumberNextPage(),
-                                         'previous_page' => $supports->getNumberPreviousPage()
-                                    ]
-                                ]);
+    /*
+       O Adpter vai adaptar os dados que eu tenho no formato que eu quero de response.
+       exemplo poderia montar lá um => return ApiAdapter::toXml($supports);
+       veja que a controller ficou bem mais inchuto e ficou, mas bem reaproveitavel
+    */
+      return ApiAdapter::toJson($supports);
     }
 
     /**
