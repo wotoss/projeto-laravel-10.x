@@ -123,7 +123,11 @@ class SupportController extends Controller
          $this->service->new(CreateSupportDTO::makeFromRequest($request)
            
          ); 
-        return redirect()->route('supports.index');
+         //alem de redirecionar eu vou redirecionar passando
+         //o (acesso falche) uma mensagem temporaria..
+        return redirect()
+                ->route('supports.index')
+                ->with('message', 'Cadastro realizado com sucesso!');
     }
 
     //fiz o edti por injeção de dependencia e parametros $id
@@ -163,8 +167,13 @@ class SupportController extends Controller
           return back();
         }
         
-        //encontrando retorna a nossa view
-        return redirect()->route('supports.index');
+
+        /* alem de redirecionar eu vou redirecionar passando
+           o (acesso falche) uma mensagem temporaria..
+           encontrando retorna a nossa view */
+        return redirect()
+                  ->route('supports.index')
+                  ->with('message', 'Atualização realizada com sucesso!');
     }
 
     //montando a action delete ou destroy

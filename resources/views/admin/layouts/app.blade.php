@@ -15,19 +15,19 @@
 
 </head>
 <body>
-    <section class="container px-4 mx-auto">
+    <section class="container px-4 mx-auto py-4">
         
            @yield('header')
         <!--cabecalho-->
 
-        <div class="content">
+        <div>
+            <!--passo o nome do meu componente message-->
+            <x-messages/>
+
             @yield('content')
             <!--assim eu trago meu conteudo via componente-->
         </div><!--conteudo-->
-
-        <footer>
-            #default footer
-        </footer><!--rodapé-->
+      
     </section>
 </body>
 </html>
