@@ -6,7 +6,7 @@
 @extends('admin.layouts.app')
 
 <!--passo minha section title e depois passo o titulo-->
-@section('title', 'Criar Novo Tópico')
+@section('title', 'Editar a Dúvida {$support->subject}')
 
 <!--aqui eu passo o meu header e insiro o titulo-->
 @section('header')
